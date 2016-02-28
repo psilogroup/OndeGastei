@@ -1,0 +1,40 @@
+<div class="container">
+  <form role="form">
+    <div class="form-group">
+      <label for="descricao">Descrição</label>
+      <input type="text" class="form-control" id="descricao" ng-model="descricao">
+    </div>
+    <div class="form-group">
+      <label for="valor">R$:</label>
+      <input type="text" class="form-control" id="valor" ng-model="valor">
+    </div>
+    <div class="form-group">
+      <label for="data">Data:</label>
+      <input type="text" class="form-control" id="data" ng-model="data"/>
+    </div>
+    <div>
+     <button type="button" class="btn btn-default" ng-click="addGasto()">Gravar</button>
+   </div>
+  </form>
+</div>
+
+<div class="container" style="margin-top:20px">
+  <table class="table table-bordere">
+    <thead>
+      <tr>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Data</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="item in transacoes">
+      <tr>
+        <td>{{item.descricao}}</td>
+        <td>R$ {{item.valor}}</td>
+        <td>{{item.data}}</td>
+        <td><a class="fa fa-trash" ng-click="deleteGasto(item._id)"></a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

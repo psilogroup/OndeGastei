@@ -1,0 +1,11 @@
+{
+  "name": "Onde Gastei",
+  "description": "controle de gastos simpes",
+  "license": "",
+  "readme": "",
+  "dependencies": {
+    "express": "*",
+    "body-parser": "*",
+    "mongoose": "*"
+  }
+}
