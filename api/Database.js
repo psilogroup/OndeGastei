@@ -1,11 +1,12 @@
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://192.168.0.6:27017/ondegastei');
+mongoose.connect('mongodb://127.0.0.1:27017/ondegastei');
 var Schema = mongoose.Schema;
 
 var transacaoSchema = new Schema ({
   "descricao" : String,
-	"valor" : Number,
+  "valor" : Number,
   "data" : String,
+  "categoria" : "String",
 	"created_at" : { type: Date, default: Date.now }
 });
 

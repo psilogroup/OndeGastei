@@ -31,8 +31,15 @@ function novoGasto(router)
 
 function listarGastos(router)
 {
+   
   router.route("/transacao").get(function(req,res){
-    mongoDB.transacao.find({},function(err,data){
+    var filters = {};
+    //name: new RegExp('^'+name+'$', "i")
+    if (req.query.periodo !== undefined)
+       filters = {data: new RegExp(req.query.periodo.replace("/","\/"))};
+      
+     console.log(filters); 
+    mongoDB.transacao.find(filters).sort({created_at: 'desc'}).exec(function(err,data){
       if (err)
       {
         response = {"erro" : true, "msg" : "Erro ao buscar dados"}
@@ -73,10 +80,36 @@ function deleteGasto(router)
     });
   });
 }
+
+function MudarCategoria(router)
+{
+    router.route("/transacao").put(function(req,res){
+         var response = {};
+        mongoDB.transacao.findOne({_id : req.body.id},function(err, tran)
+            {
+            //verifica se encontrou a transacao
+            if (tran == null)
+            {
+                response = {"erro" : true,"mensagem" : "Erro ao atualizar dados dados, id não encontrado"};
+                res.json(response);
+                return;
+            }
+            
+            tran.categoria = req.body.categoria;
+            tran.save();
+            response = {"erro" : false, "msg" : "Dados salvos com sucesso"};
+            return res.json(response);
+        });
+        
+        
+    });
+}
+
 module.exports = {
     registerAll : function(router){
         listarGastos(router);
         novoGasto(router);
         deleteGasto(router);
+        MudarCategoria(router);
     }
 }

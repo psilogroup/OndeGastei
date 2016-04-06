@@ -1,3 +1,4 @@
+<pageheader></pageheader>
 <div class="container">
   <form role="form">
     <div class="form-group">
@@ -25,16 +26,43 @@
         <th>Descrição</th>
         <th>Valor</th>
         <th>Data</th>
+        <th>Categoria</th>
         <th></th>
       </tr>
     </thead>
-    <tbody ng-repeat="item in transacoes">
-      <tr>
+    <tbody >
+      <tr ng-repeat="item in transacoes">
         <td>{{item.descricao}}</td>
         <td>R$ {{item.valor}}</td>
         <td>{{item.data}}</td>
+        <td><a id="{{item._id}}" href="#" ng-click="mostrarDialogCategoria(item._id);$event.stopPropagation();">{{item.categoria}}</a> </td>
         <td><a class="fa fa-trash" ng-click="deleteGasto(item._id)"></a></td>
       </tr>
     </tbody>
   </table>
 </div>
+
+<div id="modalCategoria" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Categoria</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+        <div class="form-group">
+          <input id="txtCategoria" type="text" class="form-control"  placeholder="Categoria" ng-model="categoria">
+        </div>
+
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="updateCategoria()">Gravar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+

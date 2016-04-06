@@ -25,7 +25,21 @@ angular
   }
 
   $scope.loadGasto = function(){
-    $http.get("http://127.0.0.1:8087/transacao").then(function(response){
+      var params = "";
+      if (periodo !== undefined && periodo != "")
+      {
+          params = "?periodo="+periodo;
+      }
+    $http.get("http://127.0.0.1:8087/transacao"+params).then(function(response){
+        
+        for (var i = 0; i < response.data.data.length;i++)
+        {
+            
+            if (response.data.data[i].categoria === undefined || response.data.data[i].categoria == "" )
+                response.data.data[i].categoria = "S. Categoria";
+                
+            
+        }
       $scope.transacoes = response.data.data;
     });
   }
@@ -36,6 +50,27 @@ angular
     });
 
   }
+  
+  $scope.mostrarDialogCategoria = function (id_) {
+      $scope.codigoItemAtual = id_;
+      $scope.categoria = "";
+     $("#modalCategoria").modal("show"); 
+     $("#txtCategoria").focus();
+  }
+  
+  $scope.updateCategoria = function()
+  {
+      
+      var data = {
+          id : $scope.codigoItemAtual,
+          categoria : $scope.categoria
+      };
+      
+      $("#modalCategoria").modal("hide");   
+    $http.put("http://127.0.0.1:8087/transacao",data).then(function(){
+        $("#"+$scope.codigoItemAtual).text($scope.categoria); 
+    }); 
+  };
 
   $scope.loadGasto();
 
