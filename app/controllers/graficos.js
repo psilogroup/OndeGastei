@@ -8,7 +8,7 @@ angular
       {
           params = "?periodo="+periodo;
       }
-       $http.get("http://127.0.0.1:8087/transacao"+params).then(function(response){
+       $http.get(baseURL+"/transacao"+params).then(function(response){
         
         var categories = new Array();
         for (var i = 0; i < response.data.data.length;i++)
@@ -44,7 +44,7 @@ angular
  for (var i = 0; i < categories.length;i++)
  {
     dataPie.push( {c: [
-            {v: categories[i].categoria + " R$ "+categories[i].valor},
+            {v: categories[i].categoria + " R$ "+ parseFloat(Math.round(categories[i].valor * 100) / 100).toFixed(2)},
             {v: categories[i].valor},
         ]})
  }

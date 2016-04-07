@@ -1,7 +1,8 @@
 periodo = dataAtualFormatada();
+baseURL = "http://23.88.103.57:8087";
 angular
 .module("ondegastei", ["ngRoute","googlechart"])
-.config(function($routeProvider, $locationProvider) {
+.config(function($routeProvider, $locationProvider,$httpProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "templates/dashboard.html",
@@ -10,7 +11,34 @@ angular
         {
             templateUrl: "templates/graficos.html",
             controller: "graficos"
+        }).when("/logar",{
+            templateUrl: "templates/logar.html",
+            controller: "logar"
+        }).when("/novousuario",{
+            templateUrl: "templates/novousuario.html",
+            controller: "novousuario"
         });
+
+$httpProvider.interceptors.push(['$q', '$location', function ($q, $location ) {
+   return {
+       'request': function (config) {
+           
+           config.headers = config.headers || {};
+           if (window.localStorage['token']) {
+               config.headers.Authorization = window.localStorage['token'];
+           }
+           
+           return config;
+       },
+       'responseError': function (response) {
+           if (response.status === 401 || response.status === 403) {
+               $location.path('/logar');
+           }
+           return $q.reject(response);
+       }
+   };
+}]);
+
 }).directive("pageheader", function(){
 	return {
 		templateUrl: "templates/pageheader.html",

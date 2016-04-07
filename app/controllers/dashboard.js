@@ -9,7 +9,7 @@ angular
       data : $scope.data
     };
 
-    $http.post("http://127.0.0.1:8087/transacao",data)
+    $http.post(baseURL+"/transacao",data)
             .success(function (data, status, headers, config) {
               $scope.descricao = "";
               $scope.valor = "";
@@ -30,7 +30,7 @@ angular
       {
           params = "?periodo="+periodo;
       }
-    $http.get("http://127.0.0.1:8087/transacao"+params).then(function(response){
+    $http.get(baseURL+"/transacao"+params).then(function(response){
         
         for (var i = 0; i < response.data.data.length;i++)
         {
@@ -45,7 +45,7 @@ angular
   }
 
   $scope.deleteGasto = function(id){
-    $http.delete("http://127.0.0.1:8087/transacao?id="+id).then(function() {
+    $http.delete(baseURL+"/transacao?id="+id).then(function() {
       $scope.loadGasto();
     });
 
@@ -67,7 +67,7 @@ angular
       };
       
       $("#modalCategoria").modal("hide");   
-    $http.put("http://127.0.0.1:8087/transacao",data).then(function(){
+    $http.put(baseURL+"/transacao",data).then(function(){
         $("#"+$scope.codigoItemAtual).text($scope.categoria); 
     }); 
   };

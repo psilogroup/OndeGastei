@@ -21,6 +21,11 @@ angular
         
        
        
+   }
+   
+   $scope.sair = function () {
+       window.localStorage.removeItem('token');
+       $location.path('/logar');
    } 
    
     
