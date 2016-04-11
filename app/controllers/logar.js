@@ -15,8 +15,19 @@ angular
         $http.post(baseURL+"/usuario/login",data).then(function(response){
             if (response.data.erro == false)
             {
-                window.localStorage['token'] = response.data.token;
-                $location.path('/');
+                if(response.data.token === undefined)
+                {
+                    alert("Falha na autenticação")
+                }
+                else
+                {
+                    window.localStorage['token'] = response.data.token;
+                    $location.path('/');
+                }
+            }
+            else
+            {
+                alert(response.data.msg);
             }
         });
     }

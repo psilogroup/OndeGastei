@@ -1,16 +1,16 @@
 <div class="container">
-    <form role="form">
+    <form role="form" name="formcadastro">
         <div class="form-group">
     <label for="nome">nome</label>
-    <input type="nome" class="form-control" id="nome" ng-model="nome">
+    <input type="nome" class="form-control" id="nome" ng-model="nome" required minlength="4">
   </div>
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" class="form-control" id="email" ng-model="email">
+    <input type="email" class="form-control" id="email" ng-model="email" required>
   </div>
   <div class="form-group">
     <label for="pwd">Senha</label>
-    <input type="password" class="form-control" id="pwd" ng-model="senha">
+    <input type="password" class="form-control" id="pwd" ng-model="senha" required>
   </div>
   
   <button type="submit" class="btn btn-primary btn-block" ng-click="cadastrarUsuario();">Criar Conta</button>

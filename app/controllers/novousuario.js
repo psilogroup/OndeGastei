@@ -5,6 +5,9 @@ angular
     
     $scope.cadastrarUsuario = function()
     {
+        if ($scope.formcadastro.$valid == false)
+            return;
+        
         var data =  {
             nome : $scope.nome,
             email: $scope.email,
