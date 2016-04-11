@@ -2,12 +2,21 @@ angular
 .module("ondegastei")
 .controller("dashboard", function($scope, $route, $routeParams,$http, $location){
 
+
   $scope.addGasto = function(){
+    if ($scope.formTransaction.$valid == false)
+    {
+        alert("Preencher todos os dados");
+        return;
+    }
+
     var data = {
       descricao : $scope.descricao,
       valor : $scope.valor,
       data : $scope.data
     };
+    
+    data.valor = String($scope.valor).replace(",","");
 
     $http.post(baseURL+"/transacao",data)
             .success(function (data, status, headers, config) {
@@ -72,6 +81,14 @@ angular
     }); 
   };
 
+
+$(function(){
+    $(document).ready(function(){
+        
+    });
+});
+
+$scope.data = getDate();
   $scope.loadGasto();
 
 });
