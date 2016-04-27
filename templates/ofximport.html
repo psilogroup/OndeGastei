@@ -1,0 +1,28 @@
+<pageheader></pageheader>
+<div class="container">
+  <form role="form" name="formofx" >
+     <div class="form-group">
+      <label for="files">Arquivo .OFX</label>
+      <input id="fileupload" name="files" type="file" accept=".ofx"/>
+     
+       <br/>
+       <br/>
+    </div>
+   </form>
+   <h3>Relatório de importação</h3>
+   <table class="table">
+       <tr class="bg-info">
+           <td>Total de Transações</td>
+           <td><span id="Transcoes"> </span></td>
+        </tr>
+        <tr class="bg-success">
+           <td>Transações com sucesso</td>
+           <td><span id="Sucesso"> </span></td>
+        </tr>
+        <tr  class="bg-danger">
+           <td>Transações com falha</td>
+           <td><span id="Falhas"> </span></td>
+        </tr>
+   </table>
+   
+   </div>

@@ -1,5 +1,6 @@
 periodo = dataAtualFormatada();
-baseURL = "http://23.88.103.57:8087";
+baseURL = "http://192.168.0.6:8087";
+ofxImportSVCURL = "http://expense/Services/OFXImport.php" ;
 angular
 .module("ondegastei", ["ngRoute","googlechart"])
 .config(function($routeProvider, $locationProvider,$httpProvider) {
@@ -17,6 +18,9 @@ angular
         }).when("/novousuario",{
             templateUrl: "templates/novousuario.html",
             controller: "novousuario"
+        }).when("/ofximport",{
+            templateUrl: "templates/ofximport.html",
+            controller: "ofximport"
         });
 
 $httpProvider.interceptors.push(['$q', '$location', function ($q, $location ) {
