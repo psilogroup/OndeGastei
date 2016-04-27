@@ -1,0 +1,5 @@
+{
+    "require": {
+        "asgrim/ofxparser": "dev-master"
+    }
+}

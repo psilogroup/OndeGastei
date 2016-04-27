@@ -1,6 +1,6 @@
 periodo = dataAtualFormatada();
-baseURL = "http://192.168.0.6:8087";
-ofxImportSVCURL = "http://expense/Services/OFXImport.php" ;
+baseURL = "http://23.88.103.57:8087";
+ofxImportSVCURL = "http://expense.psilogroup.com/Services/OFXImport.php" ;
 angular
 .module("ondegastei", ["ngRoute","googlechart"])
 .config(function($routeProvider, $locationProvider,$httpProvider) {
@@ -48,5 +48,6 @@ $httpProvider.interceptors.push(['$q', '$location', function ($q, $location ) {
 		templateUrl: "templates/pageheader.html",
 		controller: "pageheader"
 	}
-});
+}).run(['$templateCache', function ( $templateCache ) {
+    $templateCache.removeAll(); }]);
 

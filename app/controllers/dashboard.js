@@ -16,7 +16,7 @@ angular
       data : $scope.data
     };
     
-    data.valor = String($scope.valor).replace(",","");
+    data.valor = String($scope.valor).replace(",",".");
 
     $http.post(baseURL+"/transacao",data)
             .success(function (data, status, headers, config) {
