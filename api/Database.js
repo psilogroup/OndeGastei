@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://127.0.0.1:27017/ondegastei');
+mongoose.connect('mongodb://217.0.0.1:41118/expense');
 var Schema = mongoose.Schema;
 
 var transacaoSchema = new Schema({
@@ -18,7 +18,19 @@ var usuarioSchema = new Schema({
  "created_at" : { type: Date, default: Date.now }
 });
 
+var contaSchema = new Schema({
+  "user_id" : String,
+  "descricao" : String,
+  "data_vencimento" : {type: Date},
+  "valor" : Number,
+  "pago" : Boolean,
+  "codigo_barra" : String,
+  "comentario" : String,
+  "created_at" : { type: Date, default: Date.now }
+});
+
 module.exports = {
 	transacao : mongoose.model('transacao',transacaoSchema),
-    usuario : mongoose.model('usuario',usuarioSchema),
+  usuario : mongoose.model('usuario',usuarioSchema),
+  conta : mongoose.model('conta',contaSchema)
 };

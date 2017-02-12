@@ -2,7 +2,7 @@ angular
 .module("ondegastei")
 .controller("dashboard", function($scope, $route, $routeParams,$http, $location){
 
-
+$scope.categorias = [];
   $scope.addGasto = function(){
     if ($scope.formTransaction.$valid == false)
     {
@@ -25,14 +25,18 @@ angular
 
               alert(data.msg);
               $scope.loadGasto();
+              $scope.loadCategoria();
 
             })
             .error(function (data, status, header, config) {
               alert("Erro ao gravar")
             });
 
+      
+
   }
 
+  
   $scope.loadGasto = function(){
       var params = "";
       if (periodo !== undefined && periodo != "")
@@ -53,6 +57,13 @@ angular
     });
   }
 
+  $scope.loadCategoria = function(){
+    $http.get(baseURL+"/categoria").then(function(response){
+      console.log(response.data.data);
+      $scope.categorias = response.data.data;
+    });
+  };
+
   $scope.deleteGasto = function(id){
     $http.delete(baseURL+"/transacao?id="+id).then(function() {
       $scope.loadGasto();
@@ -67,16 +78,18 @@ angular
      $("#txtCategoria").focus();
   }
   
-  $scope.updateCategoria = function()
+  $scope.updateCategoria = function(_cat)
   {
-      
+      if (_cat != undefined) 
+        $scope.categoria = _cat;
+
       var data = {
           id : $scope.codigoItemAtual,
-          categoria : $scope.categoria
+          categoria :  $scope.categoria
       };
       
       $("#modalCategoria").modal("hide");   
-    $http.put(baseURL+"/transacao",data).then(function(){
+      $http.put(baseURL+"/transacao",data).then(function(){
         $("#"+$scope.codigoItemAtual).text($scope.categoria); 
     }); 
   };
@@ -89,6 +102,7 @@ $(function(){
 });
 
 $scope.data = getDate();
-  $scope.loadGasto();
+$scope.loadGasto();
+$scope.loadCategoria();
 
 });

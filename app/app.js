@@ -1,5 +1,5 @@
 periodo = dataAtualFormatada();
-baseURL = "http://23.88.103.57:8087";
+baseURL = "http://api.expense.psilogroup.com";
 ofxImportSVCURL = "http://expense.psilogroup.com/Services/OFXImport.php" ;
 angular
 .module("ondegastei", ["ngRoute","googlechart"])
@@ -21,17 +21,20 @@ angular
         }).when("/ofximport",{
             templateUrl: "templates/ofximport.html",
             controller: "ofximport"
+        }).when("/contas",{
+          templateUrl: "templates/contas.html",
+          controller: "contas"
         });
 
 $httpProvider.interceptors.push(['$q', '$location', function ($q, $location ) {
    return {
        'request': function (config) {
-           
+
            config.headers = config.headers || {};
            if (window.localStorage['token']) {
                config.headers.Authorization = window.localStorage['token'];
            }
-           
+
            return config;
        },
        'responseError': function (response) {
@@ -50,4 +53,3 @@ $httpProvider.interceptors.push(['$q', '$location', function ($q, $location ) {
 	}
 }).run(['$templateCache', function ( $templateCache ) {
     $templateCache.removeAll(); }]);
-

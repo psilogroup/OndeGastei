@@ -50,6 +50,9 @@
         <h4 class="modal-title">Categoria</h4>
       </div>
       <div class="modal-body">
+        <div>
+          <span ng-repeat="item in categorias" class="label label-primary" style="margin:3px;cursor:pointer" ng-click="updateCategoria(item._id)">{{item._id}}</span>
+        </div>
         <form>
         <div class="form-group">
           <input id="txtCategoria" type="text" class="form-control"  placeholder="Categoria" ng-model="categoria">
