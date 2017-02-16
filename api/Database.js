@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://217.0.0.1:41118/expense');
+mongoose.connect('mongodb://127.0.0.1:41118/expense');
 var Schema = mongoose.Schema;
 
 var transacaoSchema = new Schema({
@@ -26,6 +26,7 @@ var contaSchema = new Schema({
   "pago" : Boolean,
   "codigo_barra" : String,
   "comentario" : String,
+  "URL" : String,
   "created_at" : { type: Date, default: Date.now }
 });
 

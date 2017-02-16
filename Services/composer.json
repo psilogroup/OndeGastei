@@ -1,5 +1,6 @@
 {
     "require": {
-        "asgrim/ofxparser": "dev-master"
+        "asgrim/ofxparser": "dev-master",
+	"aws/aws-sdk-php": "2.*"
     }
 }

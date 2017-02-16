@@ -37,7 +37,7 @@ foreach ($transactions as &$value)
         
      $data_string = json_encode($request,JSON_UNESCAPED_SLASHES);
      
-    curl_setopt($ch, CURLOPT_URL, "http://52.67.239.233:8087/transacao");
+    curl_setopt($ch, CURLOPT_URL, "http://api.expense.psilogroup.com:80/transacao");
        
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);

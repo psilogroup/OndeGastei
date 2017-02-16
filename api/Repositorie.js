@@ -4,8 +4,6 @@ var bodyParser = require("body-parser");
 var router = express.Router();
 var jwt  = require('jwt-simple');
 var mongoDB = require("./Database");
-
-
 function novaConta(router)
 {
   router.route("/conta").post(function(req,res){
@@ -62,10 +60,10 @@ function UpdateConta(router)
             }
 
             if (req.body.descricao != null)
-              db.descricao = req.body.descricao;
+              conta.descricao = req.body.descricao;
 
             if (req.body.valor != null)
-              db.valor = req.body.valor;
+              conta.valor = req.body.valor;
 
             if (req.body.data_vencimento)
             {
@@ -85,6 +83,9 @@ function UpdateConta(router)
             if (req.body.comentario != undefined)
               conta.comentario = req.body.comentario;
 
+            if (req.body.URL != undefined)
+              conta.URL = req.body.URL;
+
             conta.user_id = req.userToken._id;
 
             conta.save();
@@ -102,7 +103,7 @@ function novoGasto(router)
       if (!usuarioAutenticado(req))
         return res.sendStatus(401);
 
-    var db = new mongoDB.conta();
+    var db = new mongoDB.transacao();
     var response = {};
     db.descricao = req.body.descricao;
     db.valor = req.body.valor;
@@ -166,7 +167,7 @@ function listarContas(router)
     //   filters = {data: new RegExp(req.query.periodo.replace("/","\/")),user_id : req.userToken._id};
 
 
-    mongoDB.conta.find(filters).sort({created_at: 'desc'}).exec(function(err,data){
+    mongoDB.conta.find(filters).sort({data_vencimento: 'asc',pago:'desc'}).exec(function(err,data){
       if (err)
       {
         response = {"erro" : true, "msg" : "Erro ao buscar dados"}
@@ -374,5 +375,6 @@ module.exports = {
         novaConta(router);
         UpdateConta(router);
         deleteConta(router);
+//F2><F2>	uploadComprovante(router);
     }
 }

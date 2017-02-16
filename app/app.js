@@ -1,6 +1,7 @@
 periodo = dataAtualFormatada();
 baseURL = "http://api.expense.psilogroup.com";
 ofxImportSVCURL = "http://expense.psilogroup.com/Services/OFXImport.php" ;
+uploadContaSVCURL = "http://expense.psilogroup.com/Services/uploadConta.php" ;
 angular
 .module("ondegastei", ["ngRoute","googlechart"])
 .config(function($routeProvider, $locationProvider,$httpProvider) {
