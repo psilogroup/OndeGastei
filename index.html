@@ -5,17 +5,22 @@
         <meta charset="utf8"/>
         <meta name="viewport" content="width=device-width, user-scalable=no"/>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/assets/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:400,700,300">
+        <link rel="stylesheet" type="text/css" href="/assets/css/site.css">
         <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
         <title>Expense</title>
     </head>
     <body>
+
         <ng-view></ng-view>
+        <toaster-container></toaster-container>
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.min.js"></script>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-google-chart/0.1.0/ng-google-chart.min.js" type="text/javascript"></script>
@@ -24,9 +29,11 @@
     <script src="/assets/js/jquery.ui.widget.js"></script>
     <script src="/assets/js/jquery.iframe-transport.js"></script>
     <script src="/assets/js/jquery.fileupload.js"></script>
+    <script src="/assets/js/toaster.js" ></script>
     <script src="/assets/js/scripts.js"></script>
     <script src="/app/app.js"></script>
     <script src="/app/controllers/dashboard.js"></script>
+    <script src="/app/controllers/movimento.js"></script>
     <script src="/app/controllers/graficos.js"></script>
     <script src="/app/controllers/logar.js"></script>
     <script src="/app/controllers/pageheader.js"></script>

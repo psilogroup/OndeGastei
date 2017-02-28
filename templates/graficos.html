@@ -1,2 +1,26 @@
 <pageheader></pageheader>
+
 <div google-chart chart="chartObject" style="height:600px; width:100%;"></div>
+<br/>
+<div class="col-sm-12">
+    <div style="margin-top: 7px">
+        <button  class="btn btn-primary btn-block" data-toggle="collapse" data-target="#filtros">Filtros</button>
+    </div>
+    <div id="filtros" class="collapse container">
+        <div style="padding-bottom: 10px">&nbsp;</div>
+        <div class="row">
+            <div class="form-group">
+                <label for="data_inicial">Início</label>
+                <input type="text" id="data_inicial" class="form-control" ng-model="data_inicio"/>
+            </div>
+            <div class="form-group">
+                <label for="data_final">Fim</label>
+                <input type="text" id="data_final" class="form-control" ng-model="data_fim"/>
+            </div>
+        </div>
+        <div class="row">
+            <button  class="btn btn-primary btn-block"  ng-click="loadGraficos()">Aplicar</button>
+        </div>
+    </div>
+    <div style="padding-bottom: 10px">&nbsp;</div>
+</div>

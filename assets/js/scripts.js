@@ -18,7 +18,7 @@ var dia = data.getDate()+1;
     var mes = data.getMonth()+1;
     if (mes.toString().length == 1)
       mes = "0"+mes;
-    var ano = data.getFullYear();  
+    var ano = data.getYear();
     return dia+"/"+mes+"/"+ano;
 }
 function getDate(){

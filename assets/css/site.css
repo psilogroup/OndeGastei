@@ -1,0 +1,55 @@
+a {
+    color: #337ab7;
+    text-decoration: none; /* no underline */
+}
+a:hover
+{
+    text-decoration: none;
+}
+.button-box{
+    display:block;
+    min-height:90px;
+    width:100%;
+    box-shadow:0 1px 1px rgba(0,0,0,0.1);
+
+    margin-bottom:15px
+}
+
+.categoria-btn
+{
+    background: #337ab7;
+    color: white;
+    border-radius: 2px;
+    margin: 2px;
+    padding: 1px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.categoria-btn a
+{
+    color: white;
+}
+
+.button-box span
+{
+    color: #fff;
+    background: #337ab7;
+    width: 100%;
+    display: block;
+    text-align: center;
+    border-radius: 2px 2px 0px 0px;
+}
+.button-box div
+{
+    width: 100%;
+    background: #fff;
+    color: darkgrey;
+    text-align: center;
+}
+.button-box a
+{
+    color: #fff;
+    margin: 0 auto;
+    width: 100%;
+}

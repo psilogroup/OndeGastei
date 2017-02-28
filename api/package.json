@@ -7,7 +7,8 @@
     "express": "*",
     "body-parser": "*",
     "mongoose": "*",
-    "jwt-simple" : "*",
-    "formidable" : "*"
+    "jwt-simple": "*",
+    "formidable": "*",
+    "pmx": "~1.0.2"
   }
 }

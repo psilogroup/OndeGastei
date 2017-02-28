@@ -1,71 +1,49 @@
 <pageheader></pageheader>
 <div class="container">
-  <form role="form" name="formTransaction">
-    <div class="form-group">
-      <label for="descricao">Descrição</label>
-      <input type="text" name="descricao" class="form-control" id="descricao" ng-model="descricao"  required>
-    </div>
-    <div class="form-group">
-      <label for="valor">R$:</label>
-      <input type="text" class="form-control" id="valor" ng-model="valor" class="money" required>
-    </div>
-    <div class="form-group">
-      <label for="data">Data:</label>
-      <input type="text" class="form-control" id="data" ng-model="data" class="data" required/>
-    </div>
-    <div>
-     <button type="button" class="btn btn-default" ng-click="addGasto()">Gravar</button>
-   </div>
-  </form>
-</div>
-
-<div class="container" style="margin-top:20px">
-  <table class="table table-bordere">
-    <thead>
-      <tr>
-        <th>Descrição</th>
-        <th>Valor</th>
-        <th>Data</th>
-        <th>Categoria</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody >
-      <tr ng-repeat="item in transacoes">
-        <td>{{item.descricao}}</td>
-        <td>R$ {{item.valor}}</td>
-        <td>{{item.data}}</td>
-        <td><a id="{{item._id}}" href="#" ng-click="mostrarDialogCategoria(item._id);$event.stopPropagation();">{{item.categoria}}</a> </td>
-        <td><a class="fa fa-trash" ng-click="deleteGasto(item._id)"></a></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div id="modalCategoria" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Categoria</h4>
-      </div>
-      <div class="modal-body">
-        <div>
-          <span ng-repeat="item in categorias" class="label label-primary" style="margin:3px;cursor:pointer" ng-click="updateCategoria(item._id)">{{item._id}}</span>
+    <div class="col-sm-12">
+        <div class="row">
+        <div class="col-sm-offset-4 col-sm-2">
+            <a href="/#/movimento">
+            <div class="button-box button-box-green">
+            <span><i class="fa fa-money fa-5x" aria-hidden="true"></i></span>
+                <div>
+                    MOVIMENTAÇÃO
+                </div>
+            </div>
+        </a>
         </div>
-        <form>
-        <div class="form-group">
-          <input id="txtCategoria" type="text" class="form-control"  placeholder="Categoria" ng-model="categoria">
+        <div class="col-sm-2">
+            <a href="/#/contas">
+                <div class="button-box button-box-green">
+                    <span><i class="fa fa-barcode fa-5x" aria-hidden="true"></i></span>
+                    <div>
+                        CONTAS
+                    </div>
+                </div>
+            </a>
         </div>
-
-      </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="updateCategoria()">Gravar</button>
-      </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-2">
+                <a href="/#/graficos">
+                    <div class="button-box button-box-green">
+                        <span><i class="fa fa-pie-chart fa-5x" aria-hidden="true"></i></span>
+                        <div>
+                            GRÁFICOS
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-2">
+                <a href="/#/ofximport">
+                    <div class="button-box button-box-green">
+                        <span><i class="fa fa-upload fa-5x" aria-hidden="true"></i></span>
+                        <div>
+                            IMPORTAÇÃO
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
-
-  </div>
 </div>
-

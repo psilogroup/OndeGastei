@@ -25,7 +25,10 @@ angular
         }).when("/contas",{
           templateUrl: "templates/contas.html",
           controller: "contas"
-        });
+        }).when("/movimento",{
+           templateUrl: "templates/movimento.html",
+           controller: "movimento"
+    });
 
 $httpProvider.interceptors.push(['$q', '$location', function ($q, $location ) {
    return {

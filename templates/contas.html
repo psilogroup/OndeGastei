@@ -1,71 +1,105 @@
 <pageheader></pageheader>
-<div class="container">
-  <form role="form" name="formTransaction">
-    <div class="form-group">
-      <label for="descricao">Descrição</label>
-      <input type="text" name="descricao" class="form-control" id="descricao" ng-model="descricao"  required>
-    </div>
-    <div class="form-group">
-      <label for="valor">R$:</label>
-      <input type="text" class="form-control" id="valor" ng-model="valor" class="money" required>
-    </div>
-    <div class="form-group">
-      <label for="data">Vencimento:</label>
-      <input type="text" class="form-control" id="data_vencimento" ng-model="data_vencimento" class="data" required/>
-    </div>
-    <div class="form-group">
-      <label for="descricao">Código de Barras</label>
-      <input type="text" name="codigo_barra" class="form-control" id="codigo_barra" ng-model="codigo_barra" >
-    </div>
-    <div class="form-group">
-      <label for="descricao">Comentário</label>
-      <input type="text" name="comentario" class="form-control" id="comentario" ng-model="comentario" >
-    </div>
-    <div>
-     <button type="button" class="btn btn-default" ng-click="addConta()">Gravar</button>
-   </div>
-  </form>
-
-  <form role="form" name="formofx" ng-show="(id_conta != '')"  >
-     <div class="form-group">
-      <label for="files">Comprovante</label>
-      <input id="fileupload" name="files" type="file" accept="application/pdf,image/jpeg,image/x-png"/>
-      <br>
-      <a id="urlComprovante" href="{{URLComprovante}}" target="_blank">Donwload</a>
-    </div>
-
-   </form>
+<div class="col-sm-12">
+    <form role="form" name="formTransaction">
+        <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <input type="text" name="descricao" class="form-control" id="descricao" ng-model="descricao"  required>
+        </div>
+        <div class="form-group">
+            <label for="valor">R$:</label>
+            <input type="text" class="form-control" id="valor" ng-model="valor" class="money" required>
+        </div>
+        <div class="form-group">
+            <label for="data">Vencimento:</label>
+            <input type="text" class="form-control" id="data_vencimento" ng-model="data_vencimento" class="data" required/>
+        </div>
+        <div class="form-group">
+            <label for="descricao">Código de Barras</label>
+            <input type="text" name="codigo_barra" class="form-control" id="codigo_barra" ng-model="codigo_barra" >
+        </div>
+        <div class="form-group">
+            <label for="descricao">Comentário</label>
+            <input type="text" name="comentario" class="form-control" id="comentario" ng-model="comentario" >
+        </div>
+        <div>
+            <button type="button" class="btn btn-success" ng-click="addConta()">Gravar</button>
+        </div>
+    </form>
+    <form role="form" name="formofx" ng-show="(id_conta != '')"  >
+        <div class="form-group">
+            <label for="fileupload">Comprovante</label>
+            <input id="fileupload" name="files" type="file" accept="application/pdf,image/jpeg,image/x-png"/>
+            <br>
+            <a id="urlComprovante" href="{{URLComprovante}}" target="_blank">Donwload</a>
+        </div>
+    </form>
 </div>
 
-<div class="container" style="margin-top:20px">
-  <table class="table table-bordere">
-    <thead>
-      <tr>
-        <th>Descrição</th>
-        <th>Valor</th>
-        <th>Data</th>
-        <th>Pago</th>
-        <th></th>
-	       <th></th>
-         <th></th>
-      </tr>
-    </thead>
-    <tbody >
-      <tr ng-repeat="item in contas" style="{{item.estilo}}">
-        <td>{{item.descricao}}</td>
-        <td>R$ {{item.valor}}</td>
-        <td>{{item.data_vencimento}}</td>
-        <td><input type="checkbox" ng-checked="item.pago" id="{{item._id}}"  ng-click="pagarConta(item._id)"></td>
-        <td><a class="fa fa-trash" ng-click="deleteConta(item._id)"></a></td>
-	      <td><a class="fa fa-pencil" ng-click="selecionaConta(item._id)"></a></td>
-        <td><a class="fa fa-download" href="{{item.URL}}" ng-show="(item.URL != undefined)" target="_blank"></a></td>
-    </tbody>
+<div class="col-sm-12">
+    <div style="margin-top: 7px">
+        <button  class="btn btn-primary btn-block" data-toggle="collapse" data-target="#filtros">Filtros</button>
+    </div>
+    <div id="filtros" class="collapse container">
+        <div style="padding-bottom: 10px">&nbsp;</div>
+        <div class="row">
+            <div class="form-group">
+                <label for="data_inicial">Início</label>
+                <input type="text" id="data_inicial" class="form-control" ng-model="data_inicio"/>
+            </div>
+            <div class="form-group">
+                <label for="data_final">Fim</label>
+                <input type="text" id="data_final" class="form-control" ng-model="data_fim"/>
+            </div>
+        </div>
+        <div class="row">
+            <button  class="btn btn-primary btn-block"  ng-click="loadContas()">Aplicar</button>
+        </div>
+    </div>
+    <div style="padding-bottom: 10px">&nbsp;</div>
+</div>
+</div>
 
-  </table>
-  <div>
-    <label style="color:red" >Valor Pendente: R$ {{valorPendente}}</label>
-  </div>
-  <div>
-  <label style="color:red">Valor Vencido R$ {{valorVencido}}</label>
-  </div>
+
+
+
+
+<div class="col-sm-12" style="margin-top: 10px">
+
+    <div>
+        <label style="color:red" >Valor Pendente: R$ {{valorPendente}}</label>
+    </div>
+    <div>
+        <label style="color:red">Valor Vencido R$ {{valorVencido}}</label>
+    </div>
+    <div>
+        <label style="color:red" >Valor Total: R$ {{valorTotal}}</label>
+    </div>
+    <div class="table-responsive">
+
+        <table class="table table-condensed table-striped">
+            <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Pago</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr ng-repeat="item in contas" style="{{item.estilo}}">
+                <td>{{item.descricao}}</td>
+                <td>R$ {{item.valor}}</td>
+                <td>{{item.data_vencimento}}</td>
+                <td><input type="checkbox" ng-checked="item.pago" id="{{item._id}}"  ng-click="pagarConta(item._id)"></td>
+                <td><a class="fa fa-trash" ng-click="deleteConta(item._id)"></a></td>
+                <td><a class="fa fa-pencil" ng-click="selecionaConta(item._id)"></a></td>
+                <td><a class="fa fa-download" href="{{item.URL}}" ng-show="(item.URL != undefined)" target="_blank"></a></td>
+            </tbody>
+
+        </table>
+
+    </div>
 </div>

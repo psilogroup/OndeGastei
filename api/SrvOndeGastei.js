@@ -1,3 +1,6 @@
+var pmx = require('pmx').init({
+  http : true
+});
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -39,28 +42,7 @@ app.use(function (req, res, next) {
 
 repo.registerAll(router);
 
-//router.post("/conta/comprovante/upload",uploading,function(req,res){
-//  res.end('such file');
-//});
 
-/*app.post('/conta/comprovante/upload',function(req,res){
- var form = new formidable.IncomingForm();
- form.multiples = false;
- form.uploadDir = path.join(__dirname,'../assets/files');
- form.on('file',function(field,file){
-  fs.rename(file.path,path.join(form.UploadDir,file.name));
-});
-
-form.on('error',function(err){
-console.log('Ocorreu um erro:'+err);
-});
-
-form.on('end',function(){
- res.end('true');
-});
-form.parse(req);
-});
-*/
 router.get("/", function (req, res) {
 	res.json({ "erro": false, "mensagem": "Hoje e dia de alegria" });
 });
