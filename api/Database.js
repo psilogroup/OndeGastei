@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.connect('mongodb://expense:bugged@ds141118.mlab.com:41118/expense');
+mongoose.connect('mongodb://127.0.0.1:41118/expense');
 var Schema = mongoose.Schema;
 
 var transacaoSchema = new Schema({
