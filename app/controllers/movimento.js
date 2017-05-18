@@ -12,7 +12,7 @@ angular
         $scope.addGasto = function(){
             if ($scope.formTransaction.$valid == false)
             {
-                alert("Preencher todos os dados");
+                $.toaster({ message : 'Preencha todos os dados',priority : 'danger',title : 'Erro' });
                 return;
             }
 
@@ -29,13 +29,14 @@ angular
                     $scope.descricao = "";
                     $scope.valor = "";
 
-                    alert(data.msg);
+
+                    $.toaster({ message : data.msg,priority : 'success',title : 'Sucesso' });
                     $scope.loadGasto();
                     $scope.loadCategoria();
 
                 })
                 .error(function (data, status, header, config) {
-                    alert("Erro ao gravar")
+                    $.toaster({ message : 'Erro ao gravar dados',priority : 'danger',title : 'Erro' });
                 });
 
 
