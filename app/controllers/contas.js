@@ -24,7 +24,8 @@ angular
                 {
                     $scope.descricao = $scope.contas[i].descricao;
                     $scope.valor = $scope.contas[i].valor;
-                    $scope.data_vencimento = $scope.contas[i].data_vencimento
+		    console.log($scope.contas[i].data_vencimento);
+                    $scope.data_vencimento = $scope.contas[i].data_vencimento;
                     $scope.codigo_barra = $scope.contas[i].codigo_barra;
                     $scope.descricao = $scope.contas[i].descricao;
                     $scope.id_conta = _id;
@@ -62,6 +63,7 @@ angular
                     $scope.data_vencimento = dataAtualFormatada();
                     $scope.codigo_barra = "";
                     $scope.comentario = "";
+		    $.toaster({message : data.msg, priority : 'success', title : 'Sucesso'});
                 });
             }
             else{
@@ -96,7 +98,7 @@ angular
                         estilo = "color:red";
                         $scope.valorVencido += response.data.data[i].valor;
                     }
-                    response.data.data[i].data_vencimento = formatarData(response.data.data[i].data_vencimento);
+                    response.data.data[i].data_vencimento = (dataVencimento.getDate()+1)+"/"+(dataVencimento.getMonth()+1)+"/"+dataVencimento.getFullYear();
                     response.data.data[i].estilo = estilo;
                     if (!response.data.data[i].pago)
                     {

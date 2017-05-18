@@ -8,8 +8,8 @@ var transacaoSchema = new Schema({
   "valor" : Number,
   "data" : String,
   "categoria" : "String",
-    "data_movimento" : {type: Date},
- "created_at" : { type: Date, default: Date.now }
+  "data_movimento" : {type: Date},
+  "created_at" : { type: Date, default: Date.now }
 });
 
 var usuarioSchema = new Schema({

@@ -19,7 +19,7 @@ function novaConta(router)
         }
 
         var str_array = req.body.data_vencimento.split("/");
-        //Queria saber quem teve aidéia de fazer o mês começar do 0
+        //Queria saber quem teve a idéia de fazer o mês começar do 0
         var data = new Date(str_array[2],str_array[1]-1,str_array[0]);
 
         db.descricao = req.body.descricao;
@@ -115,6 +115,7 @@ function novoGasto(router)
 
         var db = new mongoDB.transacao();
         var response = {};
+
         db.descricao = req.body.descricao;
         db.valor = req.body.valor;
         if (!validarData(req.body.data))
@@ -127,19 +128,21 @@ function novoGasto(router)
 
         db.data = req.body.data;
         db.user_id = req.userToken._id;
-        db.save(function(err){
-            if (err)
-            {
-                response = {"erro" : true, "msg" : "Erro ao salvar dados"}
-            }
-            else
-            {
-                response = {"erro" : false, "msg" : "Dados salvos com sucesso"}
-            }
-            res.json(response);
+
+        procurarCategoria(req.body.descricao,function(cate){
+          db.categoria = cate;
+          db.save(function(err){
+              if (err)
+              {
+                  response = {"erro" : true, "msg" : "Erro ao salvar dados"}
+              }
+              else
+              {
+                  response = {"erro" : false, "msg" : "Dados salvos com sucesso"}
+              }
+              res.json(response);
+          });
         });
-
-
     });
 }
 
@@ -370,6 +373,45 @@ function criarUsuario(router)
     });
 }
 
+function procurarCategoria(desc,callback){
+  var categoria = ""
+  //console.log("procurando categoria de: "+desc+"len: "+desc.length);
+  var l = desc.length;
+  var stop = false;
+  var hasBlock = false;
+  while(stop == false)
+  {
+    l--;
+    if (l <= 0)
+     stop = true;
+
+    if (desc[l] == ' ' || desc[l] == '-'){
+      stop = true;
+      hasBlock = true;
+    }
+
+  }
+
+  if (hasBlock)
+  {
+    desc = desc.substring(0,l);
+    //console.log("desc: "+desc.substring(0,l));
+  }
+  mongoDB.transacao.findOne({descricao : { $regex: desc + '.*' }}, {},{sort: { 'created_at' : -1 }},function(err,tran){
+    if (tran)
+    {
+      categoria = tran.categoria;
+      //console.log("encontrado "+tran.categoria);
+    }
+    if (err)
+    {
+      console.log(err);
+    }
+
+    callback(categoria);
+  });
+
+}
 function autenticarUsuario(router)
 {
     router.route("/usuario/login").post(function(req,res){
