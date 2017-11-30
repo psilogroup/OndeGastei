@@ -24,7 +24,7 @@ angular
                 {
                     $scope.descricao = $scope.contas[i].descricao;
                     $scope.valor = $scope.contas[i].valor;
-		    console.log($scope.contas[i].data_vencimento);
+		                console.log($scope.contas[i].data_vencimento);
                     $scope.data_vencimento = $scope.contas[i].data_vencimento;
                     $scope.codigo_barra = $scope.contas[i].codigo_barra;
                     $scope.descricao = $scope.contas[i].descricao;
@@ -88,12 +88,13 @@ angular
                 $scope.valorVencido = 0;
                 $scope.valorTotal = 0;
                 var dataAtual = new Date();
+                
                 for(var i =0; i < response.data.data.length;i++ )
                 {
                     var estilo = "color:green";
                     dataVencimento = new Date(response.data.data[i].data_vencimento);
 
-                    if (response.data.data[i].pago == false && dataAtual > dataVencimento)
+                    if ((response.data.data[i].pago == undefined || response.data.data[i].pago == false) && (dataAtual > dataVencimento))
                     {
                         estilo = "color:red";
                         $scope.valorVencido += response.data.data[i].valor;
