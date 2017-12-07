@@ -4,3 +4,4 @@ api/000-default
 *.ofx
 /api/node_modules/
 .idea/
+.remote-sync.json
