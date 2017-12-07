@@ -25,11 +25,13 @@ var contaSchema = new Schema({
   "data_vencimento" : {type: Date},
   "valor" : Number,
   "pago" : Boolean,
+  "mensal": Boolean,
   "codigo_barra" : String,
   "comentario" : String,
   "URL" : String,
   "created_at" : { type: Date, default: Date.now }
 });
+
 
 module.exports = {
 	transacao : mongoose.model('transacao',transacaoSchema),

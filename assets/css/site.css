@@ -53,3 +53,7 @@ a:hover
     margin: 0 auto;
     width: 100%;
 }
+.align-left
+{
+  text-align: left
+}

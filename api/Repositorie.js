@@ -1,4 +1,3 @@
-
 var express = require("express");
 var bodyParser = require("body-parser");
 var router = express.Router();
@@ -29,6 +28,7 @@ function novaConta(router)
         db.pago = req.body.pago;
         db.codigo_barra = req.body.codigo_barra;
         db.comentario = req.body.comentario;
+        db.mensal = req.body.mensal;
         db.user_id = req.userToken._id;
 
         db.save(function(err){
@@ -95,6 +95,9 @@ function UpdateConta(router)
 
             if (req.body.URL != undefined)
                 conta.URL = req.body.URL;
+
+            if (req.body.mensal != undefined)
+              conta.mensal = req.body.mensal;
 
             conta.user_id = req.userToken._id;
 

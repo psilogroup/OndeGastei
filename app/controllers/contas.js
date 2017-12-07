@@ -8,6 +8,8 @@ angular
         $scope.URLComprovante = "";
         $scope.data_inicio = "";
         $scope.data_fim = "";
+        $scope.mensal = false;
+        $scope.pago = false;
         var date = new Date();
         var lastDay = (new Date(date.getYear(), date.getMonth()+1, 0)).getDate();
         $scope.data_fim = lastDay+"/"+(date.getMonth()+1)+"/"+date.getFullYear();
@@ -28,6 +30,7 @@ angular
                     $scope.data_vencimento = $scope.contas[i].data_vencimento;
                     $scope.codigo_barra = $scope.contas[i].codigo_barra;
                     $scope.descricao = $scope.contas[i].descricao;
+                    $scope.mensal = $scope.contas[i].mensal;
                     $scope.id_conta = _id;
                     if ($scope.URL != undefined)
                         $("#urlComprovante").show();
@@ -48,7 +51,8 @@ angular
                 valor : $scope.valor,
                 data_vencimento : $scope.data_vencimento,
                 codigo_barra : $scope.codigo_barra,
-                comentario : $scope.comentario
+                comentario : $scope.comentario,
+                mensal : $scope.mensal
             };
 
             data.valor = String($scope.valor).replace(",",".");
@@ -63,6 +67,7 @@ angular
                     $scope.data_vencimento = dataAtualFormatada();
                     $scope.codigo_barra = "";
                     $scope.comentario = "";
+                    $scope.mensal = false;
 		    $.toaster({message : data.msg, priority : 'success', title : 'Sucesso'});
                 });
             }
@@ -71,6 +76,7 @@ angular
                     .success(function (data, status, headers, config) {
                         $scope.descricao = "";
                         $scope.valor = "";
+                        $scope.mensal = false;
                         $.toaster({ message : data.msg });
                         $scope.loadContas();
 
@@ -88,7 +94,7 @@ angular
                 $scope.valorVencido = 0;
                 $scope.valorTotal = 0;
                 var dataAtual = new Date();
-                
+
                 for(var i =0; i < response.data.data.length;i++ )
                 {
                     var estilo = "color:green";
