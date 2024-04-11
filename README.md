@@ -11,6 +11,7 @@ uma arquitetura simples mas com tudo nescessário para iniciar um app, desde um 
 autenticação por json web token usando AngularJS. Então se estiver estudando ou querendo controlar seus gastos vale a pena dar uma olhada
 
 build and run
+
 $ docker-compose up -d
 
 
