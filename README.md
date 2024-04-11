@@ -10,7 +10,9 @@ Por ser um aplicativo sem grandes complexibilidades creio que seja um ótimo pon
 uma arquitetura simples mas com tudo nescessário para iniciar um app, desde um API Rest feito com NodeJS, persistindo em uma database MongoDB, até o uso de
 autenticação por json web token usando AngularJS. Então se estiver estudando ou querendo controlar seus gastos vale a pena dar uma olhada
 
-[Aplicativo Online](http://expense.psilogroup.com) Link da aplicação
+build and run
+$ docker-compose up -d
+
 
 ## Arquitetura
  
