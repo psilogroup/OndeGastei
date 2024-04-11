@@ -5,7 +5,7 @@ var jwt  = require('jwt-simple');
 var mongoDB = require("./Database");
 function novaConta(router)
 {
-    router.route("/conta").post(function(req,res){
+    router.route("/conta").post(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
 
@@ -31,17 +31,17 @@ function novaConta(router)
         db.mensal = req.body.mensal;
         db.user_id = req.userToken._id;
 
-        db.save(function(err){
-            if (err)
-            {
-                response = {"erro" : true, "msg" : "Erro ao salvar dados"}
-            }
-            else
-            {
-                response = {"erro" : false, "msg" : "Dados salvos com sucesso"}
-            }
-            res.json(response);
-        });
+        const conta = await db.save()
+        if (conta !== db)
+        {
+            response = {"erro" : true, "msg" : "Erro ao salvar dados"}
+        }
+        else
+        {
+            response = {"erro" : false, "msg" : "Dados salvos com sucesso"}
+        }
+        res.json(response);
+        
 
 
     });
@@ -51,14 +51,14 @@ function novaConta(router)
 function UpdateConta(router)
 {
 
-    router.route("/conta").put(function(req,res){
+    router.route("/conta").put(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
         var response = {};
-        mongoDB.conta.findOne({_id : req.body.id,user_id : req.userToken._id},function(err, conta)
-        {
+        const conta = await mongoDB.conta.findOne({_id : req.body.id,user_id : req.userToken._id}).exec();
+        
             //verifica se encontrou a conta
-            if (conta == null)
+            if (!conta)
             {
                 response = {"erro" : true,"mensagem" : "Erro ao atualizar dados dados, id não encontrado"};
                 res.json(response);
@@ -78,9 +78,11 @@ function UpdateConta(router)
                     return res.json({"erro" : true, "msg" : "Data de vencimento inválida"});
                 }
                 var str_array = req.body.data_vencimento.split("/");
+                
                 //Queria saber quem teve aidéia de fazer o mês começar do 0
                 var data = new Date(str_array[2],str_array[1]-1,str_array[0]);
                 conta.data_vencimento = data;
+                
             }
 
 
@@ -101,18 +103,15 @@ function UpdateConta(router)
 
             conta.user_id = req.userToken._id;
 
-            conta.save();
+            await conta.save();
             response = {"erro" : false, "msg" : "Dados salvos com sucesso"};
             return res.json(response);
-        });
-
-
     });
 }
 
 function novoGasto(router)
 {
-    router.route("/transacao").post(function(req,res){
+    router.route("/transacao").post(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
 
@@ -132,27 +131,29 @@ function novoGasto(router)
         db.data = req.body.data;
         db.user_id = req.userToken._id;
 
-        procurarCategoria(req.body.descricao,function(cate){
-          db.categoria = cate;
-          db.save(function(err){
-              if (err)
-              {
-                  response = {"erro" : true, "msg" : "Erro ao salvar dados"}
-              }
-              else
-              {
-                  response = {"erro" : false, "msg" : "Dados salvos com sucesso"}
-              }
-              res.json(response);
-          });
-        });
+        
+        db.categoria = await procurarCategoria(req.body.descricao);
+        const gasto = await db.save();
+        if (gasto !== db )
+        {
+            response = {"erro" : true, "msg" : "Erro ao salvar dados"}
+        }
+        else
+        {
+            response = {"erro" : false, "msg" : "Dados salvos com sucesso"}
+        }
+        res.json(response);
+        
+        return;
+            
     });
+          
 }
 
 function listarGastos(router)
 {
 
-    router.route("/transacao").get(function(req,res){
+    router.route("/transacao").get(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
 
@@ -174,24 +175,23 @@ function listarGastos(router)
         var data_fim = new Date(str_data_fim[2],str_data_fim[1]-1,str_data_fim[0]);
         var filters = {data_movimento: {"$gte": data_inicio,$lte: data_fim},user_id: req.userToken._id};
 
-        mongoDB.transacao.find(filters).sort({data_movimento: 'desc'}).exec(function(err,data){
-            if (err)
+        const tran = await mongoDB.transacao.find(filters).exec();
+            if (!tran)
             {
                 response = {"erro" : true, "msg" : "Erro ao buscar dados"}
             }
             else
             {
-                response = {"erro" : false, "msg" : "busca efetuada com sucesso", "data":data}
+                response = {"erro" : false, "msg" : "busca efetuada com sucesso", "data":tran}
             }
             return res.json(response);
-        });
     });
 }
 
 function listarContas(router)
 {
 
-    router.route("/conta").get(function(req,res){
+    router.route("/conta").get(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
 
@@ -214,29 +214,28 @@ function listarContas(router)
         var filters = {data_vencimento: {"$gte": data_inicio,$lte: data_fim},user_id: req.userToken._id};
 
 
-        mongoDB.conta.find(filters).sort({data_vencimento: 'asc',pago:'desc'}).exec(function(err,data){
-            if (err)
+        const conta = await mongoDB.conta.find(filters).exec();
+            if (!conta)
             {
                 response = {"erro" : true, "msg" : "Erro ao buscar dados"}
             }
             else
             {
-                response = {"erro" : false, "msg" : "busca efetuada com sucesso", "data":data}
+                response = {"erro" : false, "msg" : "busca efetuada com sucesso", "data":conta}
             }
             return res.json(response);
         });
-    });
 }
 
 
 function deleteGasto(router)
 {
-    router.route("/transacao").delete(function(req,res){
+    router.route("/transacao").delete( async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
 
-        mongoDB.transacao.findOne({_id : req.query.id,user_id : req.userToken._id},function(err, tran)
-        {
+        const tran = await mongoDB.transacao.findOne({_id : req.query.id,user_id : req.userToken._id}).exec();
+        
             //verifica se encontrou a transacao
             if (tran == null)
             {
@@ -245,28 +244,23 @@ function deleteGasto(router)
                 return;
             }
             //remove a transacao efetivamente
-            tran.remove(function(err){
-                if (err)
-                {
-                    response = {"erro" : true,"mensagem" : "Erro ao remover dados, throw err"};
-                }
-                else {
+            
+            await tran.deleteOne({_id: tran._id}).exec();
+           
                     response = {"erro" : false,"mensagem" : "Dados removidos"};
-                }
+           
                 res.json(response);
-            });
-        });
     });
 }
 
 function deleteConta(router)
 {
-    router.route("/conta").delete(function(req,res){
+    router.route("/conta").delete(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
 
-        mongoDB.conta.findOne({_id : req.query.id,user_id : req.userToken._id},function(err, conta)
-        {
+        const conta = await mongoDB.conta.findOne({_id : req.query.id,user_id : req.userToken._id}).exec();
+        
             //verifica se encontrou a conta
             if (conta == null)
             {
@@ -275,29 +269,23 @@ function deleteConta(router)
                 return;
             }
             //remove a conta efetivamente
-            conta.remove(function(err){
-                if (err)
-                {
-                    response = {"erro" : true,"mensagem" : "Erro ao remover dados, throw err"};
-                }
-                else {
-                    response = {"erro" : false,"mensagem" : "Dados removidos"};
-                }
-                res.json(response);
-            });
-        });
+            await conta.deleteOne({_id: conta._id}).exec();
+                   
+            response = {"erro" : false,"mensagem" : "Dados removidos"};
+                
+            res.json(response);
+            return;
     });
 }
 
 function MudarCategoria(router)
 {
-
-    router.route("/transacao").put(function(req,res){
+    router.route("/transacao").put(async function(req,res){
         if (!usuarioAutenticado(req))
             return res.sendStatus(401);
         var response = {};
-        mongoDB.transacao.findOne({_id : req.body.id,user_id : req.userToken._id},function(err, tran)
-        {
+        const tran = await mongoDB.transacao.findOne({_id : req.body.id,user_id : req.userToken._id}).exec();
+        
             //verifica se encontrou a transacao
             if (tran == null)
             {
@@ -311,47 +299,37 @@ function MudarCategoria(router)
             response = {"erro" : false, "msg" : "Dados salvos com sucesso"};
             return res.json(response);
         });
-
-
-    });
 }
 
 function ListarCategoria(router)
 {
-    router.route("/categoria").get(function(req,res){
+    router.route("/categoria").get(async function(req,res){
         var agg = [
             {$group: {
                 _id: "$categoria"
             }}
         ];
         var response = {};
-        mongoDB.transacao.aggregate(agg, function(err, data){
-            if (err)
+       const cat = await mongoDB.transacao.aggregate(agg).exec();
+            if (!cat)
             {
                 response = {"erro" : true, "msg" : "Erro ao buscar dados"}
             }
             else
             {
-                response = {"erro" : false, "msg" : "busca efetuada com sucesso", "data":data}
+                response = {"erro" : false, "msg" : "busca efetuada com sucesso", "data":cat}
             }
             return res.json(response);
         });
-
-    });
 }
 
 function criarUsuario(router)
 {
-    router.route("/usuario").post(function(req,res){
+    router.route("/usuario").post(async function(req,res){
         var response = {};
-        mongoDB.usuario.findOne({email : req.body.email},function(err,user){
-            if (err)
-            {
-                response = {"erro" : true};
-
-                return res.json(response);
-            }
-
+        const user =  await mongoDB.usuario.findOne({email : req.body.email}).exec();
+        
+        
             if (user)
             {
                 response = {"erro" : true,"msg" : "usuário já existe"}
@@ -364,19 +342,21 @@ function criarUsuario(router)
                 db.nome = req.body.nome;
                 db.email = req.body.email;
                 db.senha = req.body.senha; //TODO encriptar senha ou não!
-                db.save(function(err){
+                
+                let u = await db.save();
+                if ( u === db){
                     response = {"erro" : false,"msg" : "usuário cadastrado com sucesso"};
-
-                    return res.json(response);
-                });
+                    return res.json(response);                
+                }
+                else{
+                    response = {"erro" : true,"msg" : "erro ao cadastrar usuário"};
+                    return res.json(response);                
+                }
             }
-
-        });
-
     });
 }
 
-function procurarCategoria(desc,callback){
+async function procurarCategoria(desc){
   var categoria = ""
   //console.log("procurando categoria de: "+desc+"len: "+desc.length);
   var l = desc.length;
@@ -400,44 +380,37 @@ function procurarCategoria(desc,callback){
     desc = desc.substring(0,l);
     //console.log("desc: "+desc.substring(0,l));
   }
-  mongoDB.transacao.findOne({descricao : { $regex: desc + '.*' }}, {},{sort: { 'created_at' : -1 }},function(err,tran){
+  const tran = await mongoDB.transacao.findOne({descricao : { $regex: desc + '.*' }}, {},{sort: { 'created_at' : -1 }}).exec();
     if (tran)
     {
       categoria = tran.categoria;
       //console.log("encontrado "+tran.categoria);
     }
-    if (err)
-    {
-      console.log(err);
-    }
+   
 
-    callback(categoria);
-  });
-
+    return categoria;
 }
-function autenticarUsuario(router)
-{
-    router.route("/usuario/login").post(function(req,res){
+async function autenticarUsuario(router) {
+    router.route("/usuario/login").post(async function(req, res) {
         var response = {};
-        mongoDB.usuario.findOne({email: req.body.email, senha:req.body.senha},function(err,user){
-            if (err)
-            {
-                response = {"erro" : true,"msg" : ":("};
-            }
-            if (!user)
-            {
-                response = {"erro" : true,"msg" : "usuário ou senha inválidos"};
+        try {
+            const user = await mongoDB.usuario.findOne({ email: req.body.email, senha: req.body.senha }).exec();
+            
+            if (!user) {
+                response = { "erro": true, "msg": "usuário ou senha inválidos" };
                 return res.json(response);
-            }
-            else
-            {
+            } else {
                 var token = jwt.encode(user, "4d11fdfe461e4fbaa70770736eba166f");
-                response = {"erro" : false,"msg" : "Logado com sucesso","token" : token};
+                response = { "erro": false, "msg": "Logado com sucesso", "token": token };
                 return res.json(response);
             }
-        });
+        } catch (err) {
+            response = { "erro": true, "msg": ":(" };
+            return res.json(response);
+        }
     });
 }
+
 
 function usuarioAutenticado(req)
 {

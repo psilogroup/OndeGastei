@@ -1,0 +1,25 @@
+version: '3.3'
+services:
+  vcontadb:
+    image: mongo
+    container_name: vcontadb
+    ports:
+      - '27017:27017'
+  vcontaapi:
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    container_name: vcontaapi
+    ports:
+      - '8087:8087'
+    depends_on:
+      - vcontadb
+  vcontasite:
+    build:
+      context: .
+      dockerfile: Dockerfile-ng
+    container_name: vcontasite
+    ports:
+      - '80:80'
+    depends_on:
+      - vcontaapi

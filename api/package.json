@@ -3,12 +3,11 @@
   "description": "controle de gastos simpes",
   "license": "",
   "readme": "",
-  "dependencies": {
-    "express": "*",
-    "body-parser": "*",
-    "mongoose": "*",
-    "jwt-simple": "*",
-    "formidable": "*",
-    "pmx": "~1.0.2"
+  "devDependencies": {
+    "express": "^4.19.2",
+    "formidable": "^3.5.1",
+    "jwt-simple": "^0.5.6",
+    "mongoose": "^8.3.1",
+    "pmx": "^1.6.7"
   }
 }

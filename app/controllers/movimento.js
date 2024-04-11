@@ -64,7 +64,7 @@ angular
 
         $scope.loadCategoria = function(){
             $http.get(baseURL+"/categoria").then(function(response){
-                console.log(response.data.data);
+                
                 $scope.categorias = response.data.data;
             });
         };
